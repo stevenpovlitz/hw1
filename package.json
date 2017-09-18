@@ -1,0 +1,15 @@
+{
+  "name": "hw1",
+  "version": "1.0.0",
+  "description": "Created by Steven Povlitz on September 17 for Data Mining HW1",
+  "main": "hw1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node hw1.js"
+  },
+  "author": "steven povlitz",
+  "license": "ISC",
+  "dependencies": {
+    "fast-csv": "^2.4.0"
+  }
+}
