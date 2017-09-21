@@ -5,11 +5,12 @@
   "main": "hw1.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node hw1.js"
+    "start": "node hw1-alt.js"
   },
   "author": "steven povlitz",
   "license": "ISC",
   "dependencies": {
+    "compute-euclidean-distance": "^1.0.0",
     "fast-csv": "^2.4.0"
   }
 }
