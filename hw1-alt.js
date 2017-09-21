@@ -69,13 +69,16 @@ var voteClassification = function(trainingData, distances, kval){
 // testdata
 var classifyWholeSet = function(testData, trainingData, kval) {
   console.log('each \'=\' is 10% completion');
-  process.stdout.write('(');
+  process.stdout.write('[');
   var spam = 0;
   var notspam = 0;
+  var truespam = 0; // used for computing accuracies
   for (var i = 1; i < trainingData.length; i++) {
     var distances = calcDistance(testData, trainingData[i]);
     distances.sort(sortDistance);
     var tempresult = voteClassification(trainingData, distances, kval);
+
+    truespam += parseInt(trainingData[i][parseInt(trainingData[0].length-1)]);
     if (tempresult == 0) {
       notspam++;
     } else {
@@ -85,8 +88,9 @@ var classifyWholeSet = function(testData, trainingData, kval) {
       process.stdout.write('=');
     }
   }
-  process.stdout.write(')\n');
+  process.stdout.write(']\n');
   console.log("total spam: " + spam + "\ntotal nspam: " + notspam);
+  console.log("total truespam: " + truespam + "\ntrue notspam: " + parseInt(trainingData.length-1 - truespam));
 }
 
 // get both files into memory as arrays
