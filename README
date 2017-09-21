@@ -1,5 +1,9 @@
-Created by Steven Povlitz on September 17 for Data Mining HW1
+## Created by Steven Povlitz on September 17 for Data Mining HW1
 
-Instructions to run:
+## Description
+
+KNN algorithm implemented on email spam data.
+
+## Instructions to run:
 -inside directory, run "npm install" to install dependencies
 -inside current directory, run with command: "npm start" or "node hw1.js"
