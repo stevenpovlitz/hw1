@@ -1,7 +1,7 @@
-var fs = require('fs');
-var euclidean = require( 'compute-euclidean-distance' );
+var fs = require('fs'); // interact with file system
+var euclidean = require( 'compute-euclidean-distance' ); // calculate euclidean quickly
 
-
+// will refactor these to parse from command line later
 var trainingPath = 'spam_train.csv';
 var testPath = 'spam_test.csv';
 
@@ -31,6 +31,7 @@ var calcDistance = function(file1, record1) {
   return distances;
 }
 
+// sorts a distance array based on length (second value)
 var sortDistance = function(a, b) {
   return a[1] - b[1];
 }
@@ -64,6 +65,8 @@ var voteClassification = function(trainingData, distances, kval){
   }
 }
 
+// run classification for every record in trainingdata against all of
+// testdata
 var classifyWholeSet = function(testData, trainingData, kval) {
   console.log('each \'=\' is 10% completion');
   process.stdout.write('(');
