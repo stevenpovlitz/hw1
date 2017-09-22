@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "compute-euclidean-distance": "^1.0.0",
-    "fast-csv": "^2.4.0"
+    "fast-csv": "^2.4.0",
+    "z-score": "^1.0.5"
   }
 }
