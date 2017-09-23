@@ -154,13 +154,13 @@ var voteClassification = function(trainingData, distances, kval){
 
 // run classification for every record in trainingdata against all of
 // testdata
-var classifyWholeSet = function(testData, trainingData, kval, tests) {
+var classifyWholeSet = function(testData, trainingData, tests, tvaloutput = false) {
   // console.log('each \'=\' is 10% completion');
   var spam = 0;
   var notspam = 0;
   var truespam = 0; // used for computing accuracies
-  for (var i = 1; i < testData.length && i < 51; i++) {
-		process.stdout.write('\nt' + i + " ");
+  for (var i = 1; i < testData.length && (tvaloutput && i < 51); i++) {
+		if (tvaloutput) process.stdout.write('\nt' + i + " ");
     var distances = calcDistance(testData[i], trainingData);
     distances.sort(sortDistance);
 		for (var index = 0; index < tests.length; index++) {
@@ -169,17 +169,17 @@ var classifyWholeSet = function(testData, trainingData, kval, tests) {
 	    truespam += parseInt(trainingData[i][parseInt(trainingData[0].length-1)]);
 	    if (tempresult == 0) {
 	      notspam++;
-				process.stdout.write("no");
-				if (index < tests.length-1) {process.stdout.write(", ");}
+				if (tvaloutput) process.stdout.write("no");
+				if (tvaloutput && index < tests.length-1) {process.stdout.write(", ");}
 	    } else {
 	      spam++;
-				process.stdout.write("spam");
-				if (index < tests.length-1) {process.stdout.write(", ");}
+				if (tvaloutput) process.stdout.write("spam");
+				if (tvaloutput && index < tests.length-1) {process.stdout.write(", ");}
 	    }
 		}
   }
 	var wrong = Math.abs(spam - truespam);
-	//process.stdout.write(wrong + " wrong, " + parseFloat(wrong) + "/2301*100 = " + (wrong)/2301*100);
+	if (!tvaloutput) process.stdout.write(wrong + " wrong, " + parseFloat(wrong) + "/2301*100 = " + (wrong)/2301*100);
 }
 
 var useZScore = function (dataFile) {
@@ -204,5 +204,7 @@ var tests = [1, 5, 11, 21, 41, 61, 81, 101, 201, 401];
 // console.log('\ni val: ' + i);
 // console.log(useZScore(testData));
 // process.stdout.write("\n" + parseInt(i) + ": ");
-classifyWholeSet( useZScore(testData), useZScore(trainingData), tests[1], tests);
+console.log('C) first 50 instances where k = 1, 5, 11, 21, 41, 61, 81, 101, 201, 401');
+
+classifyWholeSet( useZScore(testData), useZScore(trainingData), tests, true);
 console.log('');
