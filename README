@@ -5,8 +5,9 @@
 KNN algorithm implemented on email spam data. statistics.js file from https://gist.github.com/Daniel-Hug/7273430
 
 ## Instructions to run:
--inside directory, run "npm install" to install dependencies
--inside current directory, run with command: "npm start" or "node hw1.js"
+-inside directory, run command "npm install" to install dependencies
+-inside current directory, run with command: "npm start" to begin outputting C answers. Program was previously run for
+A and B answers, and their output is shown below
 
 ## Results Problem 1
 
