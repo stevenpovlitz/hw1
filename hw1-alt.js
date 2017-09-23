@@ -1,3 +1,6 @@
+// refactor s.t the looping through k values takes advantage of the fact that we've already got the
+// sorted array - move where that loop runs so it piggy backs on already calculated data
+
 var fs = require('fs'); // interact with file system
 var euclidean = require( 'compute-euclidean-distance' ); // calculate euclidean quickly
 
@@ -151,32 +154,32 @@ var voteClassification = function(trainingData, distances, kval){
 
 // run classification for every record in trainingdata against all of
 // testdata
-var classifyWholeSet = function(testData, trainingData, kval) {
+var classifyWholeSet = function(testData, trainingData, kval, tests) {
   // console.log('each \'=\' is 10% completion');
-  // process.stdout.write('[');
   var spam = 0;
   var notspam = 0;
   var truespam = 0; // used for computing accuracies
-  for (var i = 1; i < testData.length; i++) {
+  for (var i = 1; i < testData.length && i < 51; i++) {
+		process.stdout.write('\nt' + i + " ");
     var distances = calcDistance(testData[i], trainingData);
     distances.sort(sortDistance);
-    var tempresult = voteClassification(trainingData, distances, kval);
+		for (var index = 0; index < tests.length; index++) {
+	    var tempresult = voteClassification(trainingData, distances, tests[index]);
 
-    truespam += parseInt(trainingData[i][parseInt(trainingData[0].length-1)]);
-    if (tempresult == 0) {
-      notspam++;
-    } else {
-      spam++;
-    }
-    if (i % parseInt(trainingData.length / 10) == 0) {
-      // process.stdout.write('=');
-    }
+	    truespam += parseInt(trainingData[i][parseInt(trainingData[0].length-1)]);
+	    if (tempresult == 0) {
+	      notspam++;
+				process.stdout.write("no");
+				if (index < tests.length-1) {process.stdout.write(", ");}
+	    } else {
+	      spam++;
+				process.stdout.write("spam");
+				if (index < tests.length-1) {process.stdout.write(", ");}
+	    }
+		}
   }
-  // process.stdout.write(']\n');
-	// 401: 233 wrong, 233/2301*100 = 10.126
-  // console.log("spam: " + spam + " truespam: " + truespam  + " difference: " + Math.abs(parseInt(spam - truespam)));
-  var wrong = Math.abs(spam - truespam);
-	process.stdout.write(wrong + " wrong, " + parseFloat(wrong) + "/2301*100 = " + (wrong)/2301*100);
+	var wrong = Math.abs(spam - truespam);
+	//process.stdout.write(wrong + " wrong, " + parseFloat(wrong) + "/2301*100 = " + (wrong)/2301*100);
 }
 
 var useZScore = function (dataFile) {
@@ -197,10 +200,9 @@ var useZScore = function (dataFile) {
 var testData = readSync(trainingPath);
 var trainingData = readSync(testPath);
 var tests = [1, 5, 11, 21, 41, 61, 81, 101, 201, 401];
-tests.forEach(function(i) {
-  // if (i > 2) {return;}
-  // console.log('\ni val: ' + i);
-  // console.log(useZScore(testData));
-  process.stdout.write("\n" + parseInt(i) + ": ");
-  classifyWholeSet( useZScore(testData), useZScore(trainingData), i);
-});
+// if (i > 2) {return;}
+// console.log('\ni val: ' + i);
+// console.log(useZScore(testData));
+// process.stdout.write("\n" + parseInt(i) + ": ");
+classifyWholeSet( useZScore(testData), useZScore(trainingData), tests[1], tests);
+console.log('');
